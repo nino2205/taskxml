@@ -31,10 +31,27 @@
 
     <xs:element name="submission-restrictions">
         <xs:complexType>
+            <xs:choice minOccurs="0">
+                <xs:element name="filename-restrictions">
+                    <xs:complexType>
+                        <xs:attribute name="unpack-files-from-archive-regexp" type="xs:string" use="optional" default=".*"/>
+                        <xs:attribute name="unpack-files-from-archive" type="xs:boolean" use="optional" default="false"/>
+                        <xs:attribute name="allowed-upload-filename-regexp" type="xs:string" use="optional" default=".*"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="accepted-filenames">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded">
+                            <xs:element name="accepted-filename"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                    <xs:unique name="unique-accepted-filename">
+                        <xs:selector xpath="tns:accepted-filename"/>
+                        <xs:field xpath="*"/>
+                    </xs:unique>
+                </xs:element>
+            </xs:choice>
             <xs:attribute name="max-size" type="xs:positiveInteger" use="optional"/>
-            <xs:attribute name="unpack-files-from-archive-regexp" type="xs:string" use="optional" default=".*"/>
-            <xs:attribute name="unpack-files-from-archive" type="xs:boolean" use="optional" default="false"/>
-            <xs:attribute name="allowed-upload-filename-regexp" type="xs:string" use="optional" default=".*"/>
         </xs:complexType>
     </xs:element>
 
